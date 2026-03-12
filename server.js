@@ -23,6 +23,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Check for required environment variables
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI environment variable is not set!');
+  console.error('   Please set MONGODB_URI in your .env file or Render environment variables.');
+  process.exit(1);
+}
+
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {
